@@ -107,16 +107,16 @@ def update_weights(neg_examples, pos_examples, w_current):
     '''
     w = w_current
     for i in range(neg_examples.shape[0]):
-        this_case = neg_examples[i]
-        activation = this_case.dot(w)
-        if (activation >= 0):
-            # YOUR CODE HERE
+        this_case = neg_examples[i].reshape((3,1))
+        activation = np.transpose(this_case).dot(w)
+        if activation[0] >= 0:
+            w = w - this_case
 
     for i in range(pos_examples.shape[0]):
-        this_case = pos_examples[i]
-        activation = this_case.dot(w)
-        if (activation < 0):
-            # YOUR CODE HERE
+        this_case = pos_examples[i].reshape((3,1))
+        activation = np.transpose(this_case).dot(w)
+        if activation[0] < 0:
+            w = w + this_case
 
     return w
 
@@ -148,13 +148,13 @@ def eval_perceptron(neg_examples, pos_examples, w):
     for i in range(num_neg_examples):
         x = neg_examples[i]
         activation = x.dot(w)
-        if activation >= 0:
+        if activation[0] >= 0:
             mistakes0.append(i)
 
     for i in range(num_pos_examples):
         x = pos_examples[i]
         activation = x.dot(w)
-        if activation < 0:
+        if activation[0] < 0:
             mistakes1.append(i)
 
     return [mistakes0, mistakes1]
@@ -261,7 +261,7 @@ def plot_perceptron(neg_examples, pos_examples, mistakes0, mistakes1,
 #### Main program
 
 ## Loading data
-data1 = sio.loadmat('dataset3.mat')
+data1 = sio.loadmat('dataset1.mat')
 neg_examples_nobias = data1['neg_examples_nobias']
 pos_examples_nobias = data1['pos_examples_nobias']
 
