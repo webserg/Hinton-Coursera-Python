@@ -151,57 +151,12 @@ def train(epochs):
             # FILL IN CODE. Replace the line below by one of the options.
             embed_to_hid_weights_gradient = np.zeros((numhid1 * numwords, numhid2))
 
-            # Options:
-            # (a)
-            # embed_to_hid_weights_gradient = np.dot(
-            #    np.transpose(back_propagated_deriv_1), embedding_layer_state)
-
-            # (b)
             embed_to_hid_weights_gradient = np.dot(embedding_layer_state, np.transpose(back_propagated_deriv_1))
-
-            # (c)
-            # embed_to_hid_weights_gradient = back_propagated_deriv_1
-
-            # (d)
-            # embed_to_hid_weights_gradient = embedding_layer_state
-
-            # FILL IN CODE. Replace the line below by one of the options.
             hid_bias_gradient = np.zeros((numhid2, 1))
-
-            # Options
-            # (a)
             hid_bias_gradient = np.sum(back_propagated_deriv_1, axis=1)
-
-            # (b)
-            # hid_bias_gradient = np.sum(back_propagated_deriv_1, axis=0)
-
-            # (c)
-            # hid_bias_gradient = back_propagated_deriv_1
-
-            # (d)
-            # hid_bias_gradient = np.transpose(back_propagated_deriv_1)
-
             hid_bias_gradient = hid_bias_gradient.reshape(numhid2, -1, order="F")
-
-            # FILL IN CODE. Replace the line below by one of the options.
             back_propagated_deriv_2 = np.zeros((numhid2, batchsize))
-
-            # Options
-            # (a)
             back_propagated_deriv_2 = np.dot(embed_to_hid_weights, back_propagated_deriv_1)
-
-            # (b)
-            # back_propagated_deriv_2 = np.dot(back_propagated_deriv_1,
-            #                                         embed_to_hid_weights)
-
-            # (c)
-            # back_propagated_deriv_2 = np.dot(
-            #     np.transpose(back_propagated_deriv_1), embed_to_hid_weights)
-
-            # (d)
-            # back_propagated_deriv_2 = np.dot(back_propagated_deriv_1,
-            #                           np.transpose(embed_to_hid_weights))
-
             word_embedding_weights_gradient.fill(0)
 
             # EMBEDDING LAYER
@@ -561,7 +516,7 @@ def word_distance(word1, word2, model):
 model = train(10)
 
 # Uncomment to save trained model for later use
-pickle.dump(model, open("learned_model.pkl", "wb"))
+pickle.dump(model, open("learned_model-10.pkl", "wb"))
 
 # Uncomment to open previously saved trained model
 # model = pickle.load(open("learned_model.pkl", "rb"))
